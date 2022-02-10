@@ -1,0 +1,74 @@
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.publicis.sapient.creditcard.management.validator.Luhn;
+import com.publicis.sapient.creditcard.management.validator.LuhnValidator;
+
+/**
+ * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ */{{#description}}
+@ApiModel(description = "{{{description}}}"){{/description}}
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#serializableModel}}
+  private static final long serialVersionUID = 1L;
+
+{{/serializableModel}}
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+{{>enumClass}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+{{>enumClass}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{/jackson}}
+  {{#isContainer}}
+  {{#useBeanValidation}}@Valid{{/useBeanValidation}}
+  private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
+  {{/isContainer}}
+  {{^isContainer}}
+  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{/isContainer}}
+
+  {{/vars}}
+  {{#vars}}
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    return this;
+  }
+
+  /**
+  {{#description}}
+   * {{{description}}}
+  {{/description}}
+  {{^description}}
+   * Get {{name}}
+  {{/description}}
+  {{#minimum}}
+   * minimum: {{minimum}}
+  {{/minimum}}
+  {{#maximum}}
+   * maximum: {{maximum}}
+  {{/maximum}}
+   * @return {{name}}
+  */
+ {{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+  {{/vendorExtensions.x-extra-annotation}}
+  {{{ vendorExtensions.x-constraints }}}
+  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
+    return {{name}};
+  }
+
+  public void {{setter}}({{>nullableDataType}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+
+  {{/vars}}
+}

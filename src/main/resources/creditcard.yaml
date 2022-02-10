@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Credit Card Management API
+  description: "Specifies service consumed by Credit Card Providers to create/retrieve credit cards"
+  version: 1.0.0
+#servers:
+#  - url: //api.local.com/api/v1
+paths:
+  /cards/credit-cards:
+    get:
+      tags:
+        - Credit Card Management
+      summary: Retreives all credit cards
+      operationId: /getCreditCards
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCards'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+  /cards/credit-card:
+    post:
+      tags:
+        - Credit Card Management
+      summary: Credit Card addition
+      operationId: addCreditCard
+      requestBody:
+        description: creditCardRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCardRequest'
+        required: true
+      responses:
+        201:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+      x-codegen-request-body-name: creditCardRequest
+components:
+  schemas:
+    CreditCards:
+      type: array
+      items:
+        $ref: '#/components/schemas/CreditCardResponse'
+    CreditCardResponse:
+      title: creditCardResponse
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Rohit Mehra'
+          minLength: 1
+          maxLength: 35
+          description: Name provided by the client
+        cardNumber:
+          type: string
+          example: 2345678934564321
+          minLength: 13
+          maxLength: 19
+          description:
+            Card Number for the new card
+        limit:
+          type: string
+          example: £22.22
+          description: Limit of the card
+        balance:
+          type: string
+          example: £100.22
+          description: Limit of the card
+    CreditCardRequest:
+      title: creditCardRequest
+      required:
+        - name
+        - cardNumber
+        - limit
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Rohit Mehra'
+          minLength: 1
+          maxLength: 35
+          description: Name provided by the client
+        cardNumber:
+          type: string
+          x-constraints: "@Luhn"
+          pattern : '^[0-9]{13,19}$'
+          example: 2345678934564321
+          minLength: 13
+          maxLength: 19
+          description:
+            Card Number for the new card
+        limit:
+          type: number
+          format : double
+          example: 22.22
+          description: Limit of the card
+    Errors:
+      title: Errors
+      required:
+        - Error
+      type: object
+      properties:
+        Error:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      title: Error
+      type: object
+      properties:
+        Source:
+          type: string
+          description: the application that generated this error.
+          default: <source>
+        ReasonCode:
+          type: string
+          description: Unique consistent code identifying the error case encountered
+            during transaction processing.
+          default: <unique code>
+        Description:
+          type: string
+          description: Short description of the ReasonCode field. This description
+            will be consistent
+          default: <short description of the error>
+        Details:
+          type: string
+          description: Where appropriate, indicates detailed information about data
+            received and calculated during request processing, to help the user with
+            diagnosing errors.
+          default: <Optional detailed description of the issue>
