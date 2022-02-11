@@ -35,12 +35,14 @@ public class CreditCardController implements CardsApi {
         LOG.info("Credit card request received with {}", creditCardRequest);
         CreditCardResponse creditCardResponse = creditCardService.createCreditCard(creditCardMapper.cardRequestToCreditCard(creditCardRequest));
         LOG.info("Credit Card added with {}", creditCardResponse);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creditCardResponse);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(creditCardResponse);
     }
 
     @Override
     public ResponseEntity<List<CreditCardResponse>> getCreditCards() {
         LOG.info("Get all Credit card started");
-        return ResponseEntity.status(HttpStatus.OK).body(creditCardService.getAllCreditCards());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(creditCardService.getAllCreditCards());
     }
 }

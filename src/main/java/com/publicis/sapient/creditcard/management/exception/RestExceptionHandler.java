@@ -54,7 +54,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetailsList, BAD_REQUEST);
     }
 
-    @ExceptionHandler({org.springframework.dao.DataIntegrityViolationException.class})
+    @ExceptionHandler({DataIntegrityViolationException.class})
     public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException exception) {
         LOG.error("Data integrity validation exception : " + exception.getMessage());
         ErrorDetails errorDetails = createErrorMessage(INVALID_ERROR, INVALID_ERROR + HYPHEN + CARD_DATA_ERROR);
