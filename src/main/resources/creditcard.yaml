@@ -53,13 +53,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: '#/components/schemas/ErrorDetails'
         500:
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: '#/components/schemas/ErrorDetails'
       x-codegen-request-body-name: creditCardRequest
 components:
   schemas:
@@ -120,37 +120,20 @@ components:
           format : double
           example: 22.22
           description: Limit of the card
-    Errors:
-      title: Errors
-      required:
-        - Error
-      type: object
-      properties:
-        Error:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
+    ErrorDetails:
       title: Error
       type: object
       properties:
-        Source:
+        message:
           type: string
-          description: the application that generated this error.
-          default: <source>
-        ReasonCode:
+          description: A brief message of what error has occurred
+        timestamp:
           type: string
-          description: Unique consistent code identifying the error case encountered
-            during transaction processing.
-          default: <unique code>
-        Description:
-          type: string
-          description: Short description of the ReasonCode field. This description
-            will be consistent
-          default: <short description of the error>
-        Details:
+          format: date-time
+          description: timestamp when this error was recorded
+          example: '2022-02-11T11:43.25.657Z'
+        details:
           type: string
           description: Where appropriate, indicates detailed information about data
             received and calculated during request processing, to help the user with
             diagnosing errors.
-          default: <Optional detailed description of the issue>

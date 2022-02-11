@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Service
 public class CreditCardServiceImpl implements ICreditCardService {
 
-    private final CreditCardDao creditCardDao;
-    private final CreditCardMapper creditCardMapper;
+    private CreditCardDao creditCardDao;
+    private CreditCardMapper creditCardMapper;
 
     public CreditCardServiceImpl(CreditCardDao creditCardDao, CreditCardMapper creditCardMapper) {
         this.creditCardDao = creditCardDao;

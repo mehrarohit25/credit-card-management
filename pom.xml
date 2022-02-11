@@ -118,6 +118,7 @@
                                 <modelPackage>com.publicis.sapient.creditcard.management.model</modelPackage>
                                 <library>spring-boot</library>
                                 <interfaceOnly>true</interfaceOnly>
+                                <dateLibrary>java8-localdatetime</dateLibrary>
                                 <useBeanValidation>true</useBeanValidation>
                                 <performBeanValidation>false</performBeanValidation>
                             </configOptions>

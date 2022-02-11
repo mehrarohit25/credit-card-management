@@ -36,7 +36,6 @@ public class CreditCardController implements CardsApi {
         CreditCardResponse creditCardResponse = creditCardService.createCreditCard(creditCardMapper.cardRequestToCreditCard(creditCardRequest));
         LOG.info("Credit Card added with {}", creditCardResponse);
         return ResponseEntity.status(HttpStatus.CREATED).body(creditCardResponse);
-
     }
 
     @Override

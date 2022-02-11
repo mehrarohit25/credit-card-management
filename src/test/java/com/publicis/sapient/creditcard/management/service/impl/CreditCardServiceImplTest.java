@@ -30,17 +30,17 @@ public class CreditCardServiceImplTest {
     private CreditCardServiceImpl creditCardService;
 
     @BeforeAll
-    public void setup(){
-        creditCardService = new CreditCardServiceImpl(creditCardDao,creditCardMapper);
+    public void setup() {
+        creditCardService = new CreditCardServiceImpl(creditCardDao, creditCardMapper);
     }
 
     @Test
     @DisplayName("Checks a valid credit card addition")
     public void testCreditCardCreate() {
-         CreditCard creditCard = CreditCard.builder().id(1L).cardNumber("4242424242426742").name("TestCard").build();
+        CreditCard creditCard = CreditCard.builder().id(1L).cardNumber("4242424242426742").name("TestCard").build();
         CreditCardResponse creditCardResponse = CreditCardResponse.builder().cardNumber("4242424242426742").name("TestCard").build();
-         when(creditCardMapper.cardDataToResponse(any())).thenReturn(creditCardResponse);
-         when(creditCardDao.save(any())).thenReturn(creditCard);
+        when(creditCardMapper.cardDataToResponse(any())).thenReturn(creditCardResponse);
+        when(creditCardDao.save(any())).thenReturn(creditCard);
         CreditCardResponse response = creditCardService.createCreditCard(creditCard);
         verify(creditCardMapper).cardDataToResponse(creditCard);
         Assertions.assertEquals("TestCard", response.getName());

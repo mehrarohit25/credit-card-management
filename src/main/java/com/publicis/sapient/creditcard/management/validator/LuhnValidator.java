@@ -1,5 +1,7 @@
 package com.publicis.sapient.creditcard.management.validator;
 
+import org.springframework.util.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
@@ -24,27 +26,29 @@ public class LuhnValidator implements ConstraintValidator<Luhn, String> {
      * @return true if valid false otherwise
      */
     private static boolean isLuhnNumber(final String cardNumber) {
-        final int[] cardDigitArray = new int[cardNumber.length()];
+        if(StringUtils.hasLength(cardNumber)) {
+            final int[] cardDigitArray = new int[cardNumber.length()];
 
-        for (int i = ZERO_INT; i < cardNumber.length(); i++) {
-            final char c = cardNumber.charAt(i);
-            if (!Character.isDigit(c)) {
-                return false;
+            for (int i = ZERO_INT; i < cardNumber.length(); i++) {
+                final char c = cardNumber.charAt(i);
+                if (!Character.isDigit(c)) {
+                    return false;
+                }
+                cardDigitArray[i] = Integer.parseInt(EMPTY_STRING + c);
             }
-            cardDigitArray[i] = Integer.parseInt(EMPTY_STRING + c);
-        }
 
-        for (int j = cardDigitArray.length - TWO_INT; j >= ZERO_INT; j = j - TWO_INT) {
-            int num = cardDigitArray[j];
-            num = num * TWO_INT;
-            if (num > NINE_INT) {
-                num = num % TEN_INT + num / TEN_INT;
+            for (int j = cardDigitArray.length - TWO_INT; j >= ZERO_INT; j = j - TWO_INT) {
+                int num = cardDigitArray[j];
+                num = num * TWO_INT;
+                if (num > NINE_INT) {
+                    num = num % TEN_INT + num / TEN_INT;
+                }
+                cardDigitArray[j] = num;
             }
-            cardDigitArray[j] = num;
+
+            return Arrays.stream(cardDigitArray).sum() % TEN_INT == ZERO_INT;
         }
-
-        return Arrays.stream(cardDigitArray).sum() % TEN_INT == ZERO_INT;
-
+        return  true;
     }
 }
 
