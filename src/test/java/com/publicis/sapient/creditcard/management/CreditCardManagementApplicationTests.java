@@ -3,16 +3,12 @@ package com.publicis.sapient.creditcard.management;
 import com.publicis.sapient.creditcard.management.controller.CreditCardController;
 import com.publicis.sapient.creditcard.management.model.CreditCardRequest;
 import com.publicis.sapient.creditcard.management.model.CreditCardResponse;
-import com.publicis.sapient.creditcard.management.util.TestUtil;
 import jdk.jfr.Description;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
@@ -45,10 +41,4 @@ class CreditCardManagementApplicationTests {
         assertEquals(HttpStatus.OK, creditCardResponseEntity.getStatusCode());
         assertEquals(1, creditCardResponseEntity.getBody().size());
     }
-   /* @Test
-    public void errorHandlingValidationExceptionThrown() {
-
-        Assertions.assertThatExceptionOfType(ValidationException.class)
-                .isThrownBy(() -> employeeController.somethingIsWrong());
-    }*/
 }
