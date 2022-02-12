@@ -5,6 +5,8 @@ import com.publicis.sapient.creditcard.management.entity.CreditCard;
 import com.publicis.sapient.creditcard.management.mapper.CreditCardMapper;
 import com.publicis.sapient.creditcard.management.model.CreditCardResponse;
 import com.publicis.sapient.creditcard.management.service.ICreditCardService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +29,9 @@ public class CreditCardServiceImpl implements ICreditCardService {
     }
 
     @Override
-    public List<CreditCardResponse> getAllCreditCards() {
-        return creditCardDao.findAll().stream()
+    public List<CreditCardResponse> getAllCreditCards(Pageable pageable) {
+        Page<CreditCard> page = creditCardDao.findAll(pageable);
+        return page.getContent().stream()
                 .map(creditCardMapper::cardDataToResponse)
                 .collect(Collectors.toList());
     }

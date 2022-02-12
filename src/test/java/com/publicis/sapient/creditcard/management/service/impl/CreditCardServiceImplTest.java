@@ -1,3 +1,4 @@
+
 package com.publicis.sapient.creditcard.management.service.impl;
 
 import com.publicis.sapient.creditcard.management.dao.CreditCardDao;
@@ -11,9 +12,13 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.publicis.sapient.creditcard.management.util.TestUtil.createCreditCard;
@@ -40,7 +45,7 @@ public class CreditCardServiceImplTest {
         creditCardService = new CreditCardServiceImpl(creditCardDao, creditCardMapper);
     }
 
-    @Test
+  @Test
     @DisplayName("Checks a valid credit card addition")
     public void testCreditCardCreate() {
         CreditCard creditCard = createCreditCard();
@@ -52,13 +57,15 @@ public class CreditCardServiceImplTest {
         assertEquals("test", response.getName());
     }
 
-    @Test
+ @Test
     public void testGetAllCreditCards() {
         CreditCard creditCard = createCreditCard();
-        List<CreditCard> creditCardList = Arrays.asList(creditCard);
-        when(creditCardDao.findAll()).thenReturn(creditCardList);
-        List<CreditCardResponse> response = creditCardService.getAllCreditCards();
+        Pageable pageable = PageRequest.of(0, 3);
+        Page<CreditCard> creditCardPage = new PageImpl<>(Collections.singletonList(creditCard));
+        when(creditCardDao.findAll(pageable)).thenReturn(creditCardPage);
+        List<CreditCardResponse> response = creditCardService.getAllCreditCards(pageable);
         assertEquals(1, response.size());
         verify(creditCardMapper).cardDataToResponse(creditCard);
     }
+
 }

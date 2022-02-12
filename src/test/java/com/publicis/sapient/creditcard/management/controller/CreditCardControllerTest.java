@@ -1,3 +1,4 @@
+
 package com.publicis.sapient.creditcard.management.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -163,7 +165,7 @@ public class CreditCardControllerTest {
     public void getAllCreditCards() throws Exception {
         CreditCardResponse creditCardResponse = createCreditCardResponse();
         List<CreditCardResponse> creditCardResponseList = Arrays.asList(creditCardResponse);
-        when(creditCardService.getAllCreditCards()).thenReturn(creditCardResponseList);
+        when(creditCardService.getAllCreditCards(any(Pageable.class))).thenReturn(creditCardResponseList);
         mockMvc.perform(MockMvcRequestBuilders.get(GET_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -174,7 +176,7 @@ public class CreditCardControllerTest {
     @Test
     @DisplayName("Technical error check")
     public void getAllInternalServerError() throws Exception {
-        when(creditCardService.getAllCreditCards()).thenThrow(new NullPointerException());
+        when(creditCardService.getAllCreditCards(any(Pageable.class))).thenThrow(new NullPointerException());
         mockMvc.perform(MockMvcRequestBuilders.get(GET_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -195,3 +197,4 @@ public class CreditCardControllerTest {
                 .andExpect(jsonPath("$.details", is("Invalid request - Card number already in use.")));
     }
 }
+

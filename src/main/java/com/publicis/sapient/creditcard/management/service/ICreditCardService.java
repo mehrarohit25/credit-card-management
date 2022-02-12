@@ -11,6 +11,6 @@ public interface ICreditCardService {
     
     CreditCardResponse createCreditCard(CreditCard creditCard);
 
-    List<CreditCardResponse> getAllCreditCards( );
+    List<CreditCardResponse> getAllCreditCards( Pageable page);
 
 }
