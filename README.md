@@ -70,4 +70,3 @@ Refer File:
 
 ### Future improvements:
 The APIs can be secured either with OAuth or equivalent protocol.
-Also, we can try puttting in Pagination support for getAll using open Api spec.
