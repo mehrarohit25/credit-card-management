@@ -29,7 +29,7 @@ public class CreditCardDaoTest {
     public void testCreateAndGetAll() {
         TestUtil.createCreditCardRequest();
         CreditCard creditCard = CreditCard.builder().cardNumber("4242424242426742").name("Test").limit(BigDecimal.valueOf(40.22)).build();
-        CreditCard creditCard1 = creditCardDao.save(creditCard);
+        creditCardDao.save(creditCard);
         List<CreditCard> creditCards = creditCardDao.findAll();
         CreditCard creditCadResponse = creditCards.get(0);
         assertEquals("4242424242426742",creditCadResponse.getCardNumber());

@@ -12,6 +12,7 @@ paths:
         - Credit Card Management
       summary: Retreives all credit cards
       operationId: /getCreditCards
+      x-spring-paginated: true
       responses:
         200:
           description: Successful response

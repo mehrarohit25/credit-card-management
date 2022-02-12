@@ -7,6 +7,8 @@ import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -18,12 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class CreditCardManagementApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
     @Autowired
     CreditCardController creditCardController;
 
+    @Test
+    void contextLoads() {
+    }
     @Test
     @Description("Test the E2E flow for add credit card")
     public void testAddCreditCard() {
@@ -36,9 +38,9 @@ class CreditCardManagementApplicationTests {
     @Test
     @Description("Test the E2E flow for get all credit cards")
     public void tesGetAll() {
-        CreditCardRequest creditCardRequest = createCreditCardRequest();
-        ResponseEntity<List<CreditCardResponse>> creditCardResponseEntity = creditCardController.getCreditCards();
+        Pageable pageable = PageRequest.of(0, 3);
+        ResponseEntity<List<CreditCardResponse>> creditCardResponseEntity = creditCardController.getCreditCards(pageable);
         assertEquals(HttpStatus.OK, creditCardResponseEntity.getStatusCode());
-        assertEquals(1, creditCardResponseEntity.getBody().size());
+        assertEquals(3, creditCardResponseEntity.getBody().size());
     }
 }
