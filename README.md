@@ -58,7 +58,7 @@ It helps add credit card and list down all the credit cards in the system.
 
 ### Postman Collection:
 
-Refer File: 
+Refer File: Credit Card Management.postman_collection.json
 
 ### Database details:
 
