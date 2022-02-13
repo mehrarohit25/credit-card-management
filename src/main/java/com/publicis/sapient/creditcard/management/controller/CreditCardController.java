@@ -41,7 +41,7 @@ public class CreditCardController implements CardsApi {
     }
 
     @Override
-    public ResponseEntity<List<CreditCardResponse>> getCreditCards(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
+    public ResponseEntity<List<CreditCardResponse>> getCreditCards(@PageableDefault(size = 3, sort = {"name"}) Pageable pageable) {
         LOG.info("Get all Credit card started");
         return ResponseEntity.status(HttpStatus.OK).body(creditCardService.getAllCreditCards(pageable));
     }
