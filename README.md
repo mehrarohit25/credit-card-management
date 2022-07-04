@@ -6,6 +6,10 @@ It helps add credit card and list down all the credit cards in the system.
 
 * [Maven 3.8.1](https://maven.apache.org/)
 * [openjdk_11.0.12(Java 11)](https://openjdk.java.net/)
+* Helm installation
+* Docker installation 
+* Kubectl configured
+* A local kubernetes cluster e.g. Minikube
 
 ### Build
 
@@ -19,8 +23,8 @@ It helps add credit card and list down all the credit cards in the system.
 
 ### Rest End Points
 
-    POST(Add Credit card): http://localhost:8081/v1/cards/credit-card @RequestBody (#refer CreditCardRequest)
-    GET(Get all credit cards) :  http://localhost:8081/v1/cards/credit-cards
+    POST(Add Credit card): http://localhost:8080/v1/cards/credit-card @RequestBody (#refer CreditCardRequest)
+    GET(Get all credit cards) :  http://localhost:8080/v1/cards/credit-cards
 
 
 ### Sample Request body for Post operation
@@ -68,5 +72,24 @@ Refer File: Credit Card Management.postman_collection.json
     Password:
     Table Name  : T_CREDIT_CARD
 
-### Future improvements:
-The APIs can be secured either with OAuth or equivalent protocol.
+### Docker and helm integration:
+Build docker image and push it to docker hub:
+
+docker-compose build
+
+docker push <imagename:tagname>
+
+Helm steps :
+
+kubectl create ns creditcard-helm
+
+kubectl config set-context --current --namespace=creditcard-helm
+
+helm install demo -n creditcard-helm ./creditcard-helm/
+
+
+
+
+
+
+
