@@ -1,0 +1,9 @@
+version: "2"
+services:
+  web:
+    build:
+        context: .
+    image: rohit2502/credit-card-helm-chart
+    ports:
+      - 8080
+    restart: always
